@@ -22,6 +22,7 @@ synapser::synLogin()
 # The target destination (where the new table is uploaded)
 parent.syn.id <- 'syn21140362'
 target.tbl.name <- 'Tapping'
+START_DATE = lubridate::ymd("2017-08-14")
 
 ##############
 # Required functions
@@ -138,6 +139,17 @@ tapping.tbl.v2.new <- getTableWithNewFileHandles(tapping.tbl.v2.syn,
 
 # Merge all the tables into a single one
 tapping.tbl.new <- rbind(tapping.tbl.v1.new,tapping.tbl.v2.new)
+
+# Filter based on START_DATE
+tapping.tbl.new <- tapping.tbl.new %>% 
+  dplyr::mutate(date_of_entry = as.Date(lubridate::as_datetime(metadata.json.startDate))) %>% 
+  dplyr::filter(date_of_entry >= START_DATE) %>% 
+  dplyr::select(-date_of_entry)
+
+# Filter/Exclude Users based on Vanessa's offline analysis
+to_exclude_users <- fread(synGet("syn17870261")$path)
+tapping.tbl.new <- tapping.tbl.new %>% 
+  dplyr::filter(!healthCode %in% to_exclude_users$healthCode) 
 
 # Get the reference column schema to use for the new table
 cols.types <- synapser::synGetColumns('syn10278765')$asList()
