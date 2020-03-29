@@ -49,6 +49,27 @@ renameColumnInSchemaColumns <- function(SchemaColObj, oldName, newName){
   }
 }
 
+# Remove the column in a schema columns object 
+# (i.e result of synGetColumns, or cols in Schema(.., columns = cols,..))
+removeColumnInSchemaColumns <- function(SchemaColObj, colToRemove){
+  
+  colIdsToRemove <- NULL
+
+  for(i in seq(length(SchemaColObj))){
+    if(SchemaColObj[[i]]$name == colToRemove){
+      colIdsToRemove <- c(colIdsToRemove,i)
+    }
+  }
+  
+  newObj <- SchemaColObj
+  
+  if(!is.null(colIdsToRemove)){
+   newObj[[colIdsToRemove]] <- NULL
+  }
+  
+  return(newObj)
+}
+
 # Given a result of a synTableQuery, replace all filehandles new filehandles
 # associated with a copy of the file to be placed in parent.id (in Synapse)
 getTableWithNewFileHandles <- function(ref.tbl.syn, parent.id){
@@ -151,12 +172,38 @@ to_exclude_users <- fread(synGet("syn17870261")$path)
 tapping.tbl.new <- tapping.tbl.new %>% 
   dplyr::filter(!healthCode %in% to_exclude_users$healthCode) 
 
+# Remove dataGroups column from all tables except Baseline Characteristics
+tapping.tbl.new <- tapping.tbl.new %>% 
+  dplyr::select(-dataGroups, 
+                -metadata.json.dataGroups)
+
 ##############
-# Upload to Synapse
+# Table Metadata (column names, types etc.,)
 ##############
 # Get the reference column schema to use for the new table
 cols.types <- synapser::synGetColumns('syn10278765')$asList()
 
+# Remove the dataGroups column
+cols.types <- removeColumnInSchemaColumns(cols.types, 'dataGroups')
+cols.types <- removeColumnInSchemaColumns(cols.types, 'metadata.json.dataGroups')
+
+# Rename Columns of the table by removing "metadata.json", 
+# "json.items" and ".json" from column names
+oldColNames <- colnames(tapping.tbl.new)
+colnames(tapping.tbl.new)  <- gsub('metadata.json.', '',colnames(tapping.tbl.new))
+colnames(tapping.tbl.new) <- gsub('.json.items', '',colnames(tapping.tbl.new))
+colnames(tapping.tbl.new) <- gsub('.json', '',colnames(tapping.tbl.new))
+
+# Rename Columns in Schema
+cols.dat <- data.frame(oldName = oldColNames,
+                       newName = colnames(tapping.tbl.new))
+apply(cols.dat,1,function(x){
+  renameColumnInSchemaColumns(cols.types, x[['oldName']], x[['newName']])
+})
+
+##############
+# Upload to Synapse
+##############
 ## Upload new table to Synapse
 tapping.tbl.syn.new <- synapser::synBuildTable(name = target.tbl.name,
                                                parent = parent.syn.id,
