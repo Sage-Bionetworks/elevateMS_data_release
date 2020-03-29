@@ -151,6 +151,9 @@ to_exclude_users <- fread(synGet("syn17870261")$path)
 tapping.tbl.new <- tapping.tbl.new %>% 
   dplyr::filter(!healthCode %in% to_exclude_users$healthCode) 
 
+##############
+# Upload to Synapse
+##############
 # Get the reference column schema to use for the new table
 cols.types <- synapser::synGetColumns('syn10278765')$asList()
 
