@@ -187,19 +187,19 @@ cols.types <- synapser::synGetColumns('syn10278765')$asList()
 cols.types <- removeColumnInSchemaColumns(cols.types, 'dataGroups')
 cols.types <- removeColumnInSchemaColumns(cols.types, 'metadata.json.dataGroups')
 
-# Rename Columns of the table by removing "metadata.json", 
-# "json.items" and ".json" from column names
-oldColNames <- colnames(tapping.tbl.new)
-colnames(tapping.tbl.new)  <- gsub('metadata.json.', '',colnames(tapping.tbl.new))
-colnames(tapping.tbl.new) <- gsub('.json.items', '',colnames(tapping.tbl.new))
-colnames(tapping.tbl.new) <- gsub('.json', '',colnames(tapping.tbl.new))
+# # Rename Columns of the table by removing "metadata.json", 
+# # "json.items" and ".json" from column names
+# oldColNames <- colnames(tapping.tbl.new)
+# colnames(tapping.tbl.new)  <- gsub('metadata.json.', '',colnames(tapping.tbl.new))
+# colnames(tapping.tbl.new) <- gsub('.json.items', '',colnames(tapping.tbl.new))
+# colnames(tapping.tbl.new) <- gsub('.json', '',colnames(tapping.tbl.new))
 
-# Rename Columns in Schema
-cols.dat <- data.frame(oldName = oldColNames,
-                       newName = colnames(tapping.tbl.new))
-apply(cols.dat,1,function(x){
-  renameColumnInSchemaColumns(cols.types, x[['oldName']], x[['newName']])
-})
+# # Rename Columns in Schema
+# cols.dat <- data.frame(oldName = oldColNames,
+#                        newName = colnames(tapping.tbl.new))
+# apply(cols.dat,1,function(x){
+#   renameColumnInSchemaColumns(cols.types, x[['oldName']], x[['newName']])
+# })
 
 ##############
 # Upload to Synapse
