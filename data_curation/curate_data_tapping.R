@@ -12,6 +12,7 @@
 # Required libraries
 ##############
 library(tidyverse)
+library(data.table)
 library(synapser)
 synapser::synLogin()
 
