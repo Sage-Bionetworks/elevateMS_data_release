@@ -17,6 +17,7 @@ library(data.table)
 library(synapser)
 library(lubridate)
 library(zipcode)
+library(githubr)
 data(zipcode)
 synapser::synLogin()
 
@@ -31,6 +32,8 @@ START_DATE = lubridate::ymd("2017-08-14")
 ##############
 # Required functions
 ##############
+source('data_curation/common_functions.R')
+
 stringfy <- function(x){
   gsub('[\\[\"\\]]','',x, perl=T) 
 }
@@ -51,6 +54,7 @@ tmp_select_val <- function(date_of_entry, value){
 ##############
 ## Demographics-v2 
 demog.syn.id <- 'syn10295288'
+all.used.ids <- 'syn10295288'
 demog.syn <-  synapser::synTableQuery(paste("select * from", demog.syn.id))
 demog <- demog.syn$asDataFrame() %>% 
   dplyr::select(-ROW_ID, -ROW_VERSION, # remove unneccessary columns
@@ -94,6 +98,7 @@ demog$race[to_replace] = 'other'
 
 ## Profile-v2 (for age and disease char)
 profiles.syn.id <- 'syn10235463'
+all.used.ids <- c(all.used.ids, 'syn10235463')
 profiles.syn <- synapser::synTableQuery(paste("select * from", profiles.syn.id))
 profiles <- profiles.syn$asDataFrame()
 colnames(profiles) <- gsub('demographics.', '',colnames(profiles))
@@ -135,6 +140,7 @@ externalIds <- fread(synGet("syn17057743")$path) %>%
   dplyr::mutate(id = gsub('-','', id)) %>%
   dplyr::rename(externalId = id) 
 true_externalIds = unique(externalIds$externalId)
+all.used.ids <- c(all.used.ids, 'syn17057743')
 
 ## Final Demog Summary
 demog_clean <- demog_summary %>% 
@@ -199,6 +205,7 @@ baselineChar <- baselineChar %>%
 
 ## Exclude Users based on Vanessa's offline analysis
 to_exclude_users <- fread(synGet("syn17870261")$path)
+all.used.ids <- c(all.used.ids, 'syn17870261')
 baselineChar <- baselineChar %>% 
   dplyr::filter(! healthCode %in% to_exclude_users$healthCode) 
 
@@ -274,17 +281,39 @@ tmp_zipcode <- tmp_zipcode %>%
   dplyr::summarise(state = state[1],
                    state.abbr = state.abbr[1])
 
-#create the new col to match to tmp_zipcode
+# create the new col to match to tmp_zipcode
 baselineChar['zipcode_firstThree'] = substr(baselineChar$zipcode, 1,3)
 baselineChar <- merge(baselineChar, tmp_zipcode, all.x = T)
-baselineChar$zipcode_firstThree <- NULL
+
+# replace zipcode with first three numbers
+baselineChar$zipcode <- baselineChar$zipcode_firstThree
+
+# filter based on userSharingScope
+baselineChar <- baselineChar %>% 
+  dplyr::filter(userSharingScope == 'all_qualified_researchers')
+
+# remove unneccessary columns
+baselineChar <- baselineChar %>% 
+  dplyr::select(-zipcode_firstThree,
+                -externalId,
+                -userSharingScope,
+                -error,
+                -state.abbr,
+                -group)
 
 ##############
 # Upload to Synapse
 ##############
+# Github link
+gtToken = 'github_token.txt';
+githubr::setGithubToken(as.character(read.table(gtToken)$V1))
+thisFileName <- 'data_curation/curate_baseline_characteristics.R'
+thisRepo <- getRepo(repository = "itismeghasyam/elevateMS_data_release", ref="branch", refName='master')
+thisFile <- getPermlink(repository = thisRepo, repositoryPath=thisFileName)
+
 ## Upload new table to Synapse
 baselineChar.syn.new <- synapser::synBuildTable(name = target.tbl.name,
                                                parent = parent.syn.id,
                                                values = baselineChar)
 # no filehandleId type columns, so let Synapse decide column types by default
-synapser::synStore(baselineChar.syn.new)
+synapser::synStore(baselineChar.syn.new, used = all.used.ids, executed = thisFile)
