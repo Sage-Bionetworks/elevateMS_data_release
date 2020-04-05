@@ -14,6 +14,7 @@
 library(tidyverse)
 library(data.table)
 library(synapser)
+library(githubr)
 synapser::synLogin()
 
 ##############
@@ -144,6 +145,7 @@ tapping.tbl.v1.syn <- synapser::synTableQuery(paste(
   'select * from', 'syn9765504'
   # , " where healthCode = '41167e8c-f444-4a65-8689-1e3f7878d072'"
 ))
+all.used.ids <- 'syn9765504'
 tapping.tbl.v1.new <- getTableWithNewFileHandles(tapping.tbl.v1.syn
                                                  , parent.id = parent.syn.id) %>% 
   dplyr::rename(accelerometer_tapping_left.json.items = accelerometer_tapping_left.json,
@@ -155,6 +157,7 @@ tapping.tbl.v2.syn <- synapser::synTableQuery(paste(
   'select * from', 'syn10278765'
   # , " where healthCode = '41167e8c-f444-4a65-8689-1e3f7878d072'"
 ))
+all.used.ids <- c(all.used.ids, 'syn10278765')
 tapping.tbl.v2.new <- getTableWithNewFileHandles(tapping.tbl.v2.syn,
                                                  parent.id = parent.syn.id) 
 
@@ -169,13 +172,24 @@ tapping.tbl.new <- tapping.tbl.new %>%
 
 # Filter/Exclude Users based on Vanessa's offline analysis
 to_exclude_users <- fread(synGet("syn17870261")$path)
+all.used.ids <- c(all.used.ids, 'syn17870261')
 tapping.tbl.new <- tapping.tbl.new %>% 
   dplyr::filter(!healthCode %in% to_exclude_users$healthCode) 
 
+# Filter based on userSharingScope
+tapping.tbl.new <- tapping.tbl.new %>% 
+  dplyr::filter(userSharingScope == 'ALL_QUALIFIED_RESEARCHERS')
+
 # Remove dataGroups column from all tables except Baseline Characteristics
+# Remove unneccessary columns
 tapping.tbl.new <- tapping.tbl.new %>% 
   dplyr::select(-dataGroups, 
-                -metadata.json.dataGroups)
+                -metadata.json.dataGroups,
+                -externalId,
+                -userSharingScope,
+                -validationErrors,
+                -substudyMemberships,
+                -dayInStudy)
 
 ##############
 # Table Metadata (column names, types etc.,)
@@ -186,6 +200,11 @@ cols.types <- synapser::synGetColumns('syn10278765')$asList()
 # Remove the dataGroups column
 cols.types <- removeColumnInSchemaColumns(cols.types, 'dataGroups')
 cols.types <- removeColumnInSchemaColumns(cols.types, 'metadata.json.dataGroups')
+cols.types <- removeColumnInSchemaColumns(cols.types, 'externalId')
+cols.types <- removeColumnInSchemaColumns(cols.types, 'userSharingScope')
+cols.types <- removeColumnInSchemaColumns(cols.types, 'validationErrors')
+cols.types <- removeColumnInSchemaColumns(cols.types, 'substudyMemberships')
+cols.types <- removeColumnInSchemaColumns(cols.types, 'dayInStudy')
 
 # # Rename Columns of the table by removing "metadata.json", 
 # # "json.items" and ".json" from column names
@@ -204,6 +223,13 @@ cols.types <- removeColumnInSchemaColumns(cols.types, 'metadata.json.dataGroups'
 ##############
 # Upload to Synapse
 ##############
+# Github link
+gtToken = 'github_token.txt';
+githubr::setGithubToken(as.character(read.table(gtToken)$V1))
+thisFileName <- 'data_curation/curate_data_tapping.R'
+thisRepo <- getRepo(repository = "itismeghasyam/elevateMS_data_release", ref="branch", refName='master')
+thisFile <- getPermlink(repository = thisRepo, repositoryPath=thisFileName)
+
 ## Upload new table to Synapse
 tapping.tbl.syn.new <- synapser::synBuildTable(name = target.tbl.name,
                                                parent = parent.syn.id,
@@ -211,4 +237,4 @@ tapping.tbl.syn.new <- synapser::synBuildTable(name = target.tbl.name,
 tapping.tbl.syn.new$schema <- synapser::Schema(name = target.tbl.name,
                                                columns = cols.types, # Specify column types
                                                parent = parent.syn.id)
-synapser::synStore(tapping.tbl.syn.new)
+synapser::synStore(tapping.tbl.syn.new, used = all.used.ids, executed = thisFile)
