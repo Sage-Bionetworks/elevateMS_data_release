@@ -2,7 +2,7 @@
 # elevateMS data release
 # Purpose: To collate all baseline characteristics data tables in elevateMS project 
 #          and upload to public portal
-# Author: Meghasyam Tummalacherla
+# Author: Meghasyam Tummalacherla, Abhishek Pratap
 # email: meghasyam@sagebase.org
 # NOTE: code adapted from https://github.com/Sage-Bionetworks/elevateMS_analysis/blob/master/featureExtraction/baselineCharacteristics.R
 ########################################################################
