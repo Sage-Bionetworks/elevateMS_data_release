@@ -53,7 +53,7 @@ all.used.ids <- 'syn10352369'
 ## v3 ('syn11171602')
 weather.tbl.v3.syn <- synapser::synTableQuery(paste(
   'select * from', 'syn11171602'
-  , " where healthCode = 'f6bfd9d0-6558-41a7-95f8-e913d4312014'"
+  # , " where healthCode = 'f6bfd9d0-6558-41a7-95f8-e913d4312014'"
 ))
 all.used.ids <- c(all.used.ids, 'syn11171602')
 weather.tbl.v3.new <- getTableWithNewFileHandles(weather.tbl.v3.syn,
