@@ -55,7 +55,9 @@ getTableWithNewFileHandles <- function(ref.tbl.syn, parent.id){
   # We will be using this later to specify column types for new table
   allCols <- synapser::synGetColumns(ref.tbl.syn$tableId)$asList()
   # Find all columns that are of type 'FILEHANDLEID' for the given table
-  fhCols <- whichColumns(allCols, 'FILEHANDLEID')
+  fhCols <- whichColumns(allCols, 'FILEHANDLEID') %>% 
+    as.list()
+  names(fhCols) <- fhCols
   
   # Download all FILEHANDLEID type columns
   ref.json.loc = lapply(fhCols, function(col.name){
@@ -83,20 +85,22 @@ getTableWithNewFileHandles <- function(ref.tbl.syn, parent.id){
   }
   
   # Upload a copy of the files to new Synapse project and get new filehandleIds
-  fhs <- lapply(ref.tbl[,paste0(fhCols, 'fileLocation')], function(fpCol){
+  fhs <- lapply(fhCols, function(fpColName){
+    fpCol <- ref.tbl[,paste0(fpColName, 'fileLocation')]
     a <- lapply(fpCol, function(fp){
       fh <- tryCatch(synapser::synUploadFileHandle(path= as.character(fp), parent=parent.id),
                      error = function(e){NULL})
       ifelse(is.null(fh),
              return(NA), # missing files handled as NAs
              return(fh$id))
-    })
-    return(unlist(a))
+    }) %>% unlist()
+    
+    return(a)
   })
   
   # Replace old filehandles with new ones
   for(fhCol in fhCols){
-    ref.tbl[,fhCol] <- fhs[[paste0(fhCol, 'fileLocation')]]
+    ref.tbl[,fhCol] <- fhs[[fhCol]]
     # print(fhCol)
   }
   

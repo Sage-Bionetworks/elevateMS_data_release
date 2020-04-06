@@ -1,5 +1,5 @@
 ############################################################################
-# ElevateMS project
+# elevateMS data release
 # Purpose: Score WPAI Surveys
 # Author: Meghasyam Tummalacherla
 # email: meghasyam@sagebase.org
