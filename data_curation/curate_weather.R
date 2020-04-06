@@ -110,7 +110,7 @@ cols.types <- removeColumnInSchemaColumns(cols.types, 'dayInStudy')
 # Github link
 gtToken = 'github_token.txt';
 githubr::setGithubToken(as.character(read.table(gtToken)$V1))
-thisFileName <- 'data_curation/curate_data_weather.R'
+thisFileName <- 'data_curation/curate_weather.R'
 thisRepo <- getRepo(repository = "itismeghasyam/elevateMS_data_release", ref="branch", refName='master')
 thisFile <- getPermlink(repository = thisRepo, repositoryPath=thisFileName)
 
