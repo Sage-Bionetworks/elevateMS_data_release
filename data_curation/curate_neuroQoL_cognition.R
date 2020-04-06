@@ -103,4 +103,6 @@ neuroCog.tbl.syn.new <- synapser::synBuildTable(name = target.tbl.name,
 neuroCog.tbl.syn.new$schema <- synapser::Schema(name = target.tbl.name,
                                                columns = cols.types, # Specify column types
                                                parent = parent.syn.id)
-synapser::synStore(neuroCog.tbl.syn.new, used = all.used.ids, executed = thisFile)
+tbl.syn.new <- synapser::synStore(neuroCog.tbl.syn.new)
+act <- synapser::Activity(name = target.tbl.name,used = all.used.ids, executed = thisFile)
+synapser::synSetProvenance(tbl.syn.new, activity = act)
