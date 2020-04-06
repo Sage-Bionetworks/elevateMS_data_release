@@ -316,4 +316,6 @@ baselineChar.syn.new <- synapser::synBuildTable(name = target.tbl.name,
                                                parent = parent.syn.id,
                                                values = baselineChar)
 # no filehandleId type columns, so let Synapse decide column types by default
-synapser::synStore(baselineChar.syn.new, used = all.used.ids, executed = thisFile)
+tbl.syn.new <- synapser::synStore(baselineChar.syn.new)
+act <- synapser::Activity(name = target.tbl.name,used = all.used.ids, executed = thisFile)
+synapser::synSetProvenance(tbl.syn.new, activity = act)
