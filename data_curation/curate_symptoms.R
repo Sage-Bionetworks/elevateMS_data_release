@@ -22,7 +22,7 @@ synapser::synLogin()
 ##############
 # The target destination (where the new table is uploaded)
 parent.syn.id <- 'syn21140362'
-target.tbl.name <- 'symptoms Survey'
+target.tbl.name <- 'Symptoms Survey'
 START_DATE = lubridate::ymd("2017-08-14")
 
 ##############
