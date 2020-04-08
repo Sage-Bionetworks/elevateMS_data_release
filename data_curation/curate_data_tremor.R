@@ -118,4 +118,6 @@ tremor.tbl.syn.new <- synapser::synBuildTable(name = target.tbl.name,
 tremor.tbl.syn.new$schema <- synapser::Schema(name = target.tbl.name,
                                                columns = cols.types, # Specify column types
                                                parent = parent.syn.id)
-synapser::synStore(tremor.tbl.syn.new, used = all.used.ids, executed = thisFile)
+tbl.syn.new <- synapser::synStore(tremor.tbl.syn.new)
+act <- synapser::Activity(name = target.tbl.name,used = all.used.ids, executed = thisFile)
+synapser::synSetProvenance(tbl.syn.new, activity = act)
