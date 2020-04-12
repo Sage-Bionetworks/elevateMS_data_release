@@ -34,17 +34,27 @@ source('data_curation/common_functions.R')
 # Download Daily Check-In tables from synapse
 ##############
 
-## v1 ('syn9758010')
-daily.tbl.v1.syn <- synapser::synTableQuery(paste(
-  'select * from', 'syn9758010'
-  # , " where healthCode = 'f6bfd9d0-6558-41a7-95f8-e913d4312014'"
-))
+## v1 ('syn9758010') 
+## from elevateMS project
+## All data except rawData column
+daily.tbl.v1.syn <- synapser::synTableQuery(paste('select * from', 'syn9758010'))
 all.used.ids <- 'syn9758010'
 daily.tbl.v1.new <- getTableWithNewFileHandles(daily.tbl.v1.syn,
-                                                  parent.id = parent.syn.id) 
+                                               parent.id = parent.syn.id,
+                                               colsNotToConsider = 'rawData') 
+
+## Get rawData from elevateMS rawData re-export project
+daily.tbl.v1.rawData.syn <- synapser::synTableQuery(paste(
+  'select recordId,healthCode,rawData from', 'syn21762619'))
+all.used.ids <- c(all.used.ids,'syn21762619')
+daily.tbl.v1.rawData.new <- getTableWithNewFileHandles(daily.tbl.v1.rawData.syn,
+                                               parent.id = parent.syn.id) 
+
 
 # Merge all the tables into a single one
-daily.tbl.new <- daily.tbl.v1.new
+daily.tbl.new <- daily.tbl.v1.new %>% 
+  dplyr::left_join(daily.tbl.v1.rawData.new) %>% 
+  unique()
 
 # Filter based on START_DATE
 daily.tbl.new <- daily.tbl.new %>% 
@@ -98,11 +108,11 @@ thisFile <- getPermlink(repository = thisRepo, repositoryPath=thisFileName)
 
 ## Upload new table to Synapse
 daily.tbl.syn.new <- synapser::synBuildTable(name = target.tbl.name,
-                                                parent = parent.syn.id,
-                                                values = daily.tbl.new)
+                                             parent = parent.syn.id,
+                                             values = daily.tbl.new)
 daily.tbl.syn.new$schema <- synapser::Schema(name = target.tbl.name,
-                                                columns = cols.types, # Specify column types
-                                                parent = parent.syn.id)
+                                             columns = cols.types, # Specify column types
+                                             parent = parent.syn.id)
 tbl.syn.new <- synapser::synStore(daily.tbl.syn.new)
 act <- synapser::Activity(name = target.tbl.name,used = all.used.ids, executed = thisFile)
 synapser::synSetProvenance(tbl.syn.new, activity = act)
