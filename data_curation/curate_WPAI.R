@@ -37,13 +37,15 @@ source('data_curation/common_functions.R')
 wpai_synTable <- 'syn9920298'
 wpai.syn <- synapser::synTableQuery(paste("select * from", wpai_synTable))
 all.used.ids <- wpai_synTable
-wpai1 <- getTableWithNewFileHandles(wpai.syn, parent.id = parent.syn.id)
+wpai1 <- getTableWithNewFileHandles(wpai.syn, parent.id = parent.syn.id,
+                                    colsNotToConsider = 'rawData')
 
 # Version 2 of the WPAI table
 wpai_synTable <- 'syn10505930'
 wpai.syn <- synapser::synTableQuery(paste("select * from", wpai_synTable))
 all.used.ids <- c(all.used.ids, wpai_synTable)
-wpai2 <- getTableWithNewFileHandles(wpai.syn, parent.id = parent.syn.id)
+wpai2 <- getTableWithNewFileHandles(wpai.syn, parent.id = parent.syn.id,
+                                    colsNotToConsider = 'rawData')
 
 # Merged table which we will be working on
 wpai_all <- rbind(wpai1, wpai2)
@@ -59,6 +61,12 @@ to_exclude_users <- fread(synGet("syn17870261")$path)
 all.used.ids <- c(all.used.ids, 'syn17870261')
 wpai_all <- wpai_all %>% 
   dplyr::filter(!healthCode %in% to_exclude_users$healthCode) 
+
+# Filter/Exclude Users who withdrew from the study
+withdrew_users <- fread(synGet("syn21927918")$path)
+all.used.ids <- c(all.used.ids, 'syn21927918')
+wpai_all <- wpai_all %>% 
+  dplyr::filter(!healthCode %in% withdrew_users$healthCode) 
 
 # filter based on userSharingScope
 wpai_all <- wpai_all %>% 
@@ -87,6 +95,7 @@ cols.types <- removeColumnInSchemaColumns(cols.types, 'userSharingScope')
 cols.types <- removeColumnInSchemaColumns(cols.types, 'validationErrors')
 cols.types <- removeColumnInSchemaColumns(cols.types, 'substudyMemberships')
 cols.types <- removeColumnInSchemaColumns(cols.types, 'dayInStudy')
+cols.types <- removeColumnInSchemaColumns(cols.types, 'rawData')
 
 ##############
 # Upload to Synapse
