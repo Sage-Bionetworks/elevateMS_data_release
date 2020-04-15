@@ -57,7 +57,8 @@ weather.tbl.v3.syn <- synapser::synTableQuery(paste(
 ))
 all.used.ids <- c(all.used.ids, 'syn11171602')
 weather.tbl.v3.new <- getTableWithNewFileHandles(weather.tbl.v3.syn,
-                                                parent.id = parent.syn.id) 
+                                                parent.id = parent.syn.id,
+                                                colsNotToConsider = 'rawData') 
 
 # Merge all the tables into a single one
 weather.tbl.new <- weather.tbl.v3.new
@@ -73,6 +74,12 @@ to_exclude_users <- fread(synGet("syn17870261")$path)
 all.used.ids <- c(all.used.ids, 'syn17870261')
 weather.tbl.new <- weather.tbl.new %>% 
   dplyr::filter(!healthCode %in% to_exclude_users$healthCode) 
+
+# Filter/Exclude Users who withdrew from the study
+withdrew_users <- fread(synGet("syn21927918")$path)
+all.used.ids <- c(all.used.ids, 'syn21927918')
+weather.tbl.new <- weather.tbl.new %>% 
+  dplyr::filter(!healthCode %in% withdrew_users$healthCode) 
 
 # Filter based on userSharingScope
 weather.tbl.new <- weather.tbl.new %>% 
@@ -103,6 +110,7 @@ cols.types <- removeColumnInSchemaColumns(cols.types, 'userSharingScope')
 cols.types <- removeColumnInSchemaColumns(cols.types, 'validationErrors')
 cols.types <- removeColumnInSchemaColumns(cols.types, 'substudyMemberships')
 cols.types <- removeColumnInSchemaColumns(cols.types, 'dayInStudy')
+cols.types <- removeColumnInSchemaColumns(cols.types, 'rawData')
 
 ##############
 # Upload to Synapse
