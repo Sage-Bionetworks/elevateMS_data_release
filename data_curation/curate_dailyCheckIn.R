@@ -68,6 +68,12 @@ all.used.ids <- c(all.used.ids, 'syn17870261')
 daily.tbl.new <- daily.tbl.new %>% 
   dplyr::filter(!healthCode %in% to_exclude_users$healthCode) 
 
+# Filter/Exclude Users who withdrew from the study
+withdrew_users <- fread(synGet("syn21927918")$path)
+all.used.ids <- c(all.used.ids, 'syn21927918')
+daily.tbl.new <- daily.tbl.new %>% 
+  dplyr::filter(!healthCode %in% withdrew_users$healthCode) 
+
 # Filter based on userSharingScope
 daily.tbl.new <- daily.tbl.new %>% 
   dplyr::filter(userSharingScope == 'ALL_QUALIFIED_RESEARCHERS')

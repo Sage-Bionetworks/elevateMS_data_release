@@ -46,7 +46,8 @@ removeColumnInSchemaColumns <- function(SchemaColObj, colToRemove){
 
 # Given a result of a synTableQuery, replace all filehandles new filehandles
 # associated with a copy of the file to be placed in parent.id (in Synapse)
-getTableWithNewFileHandles <- function(ref.tbl.syn, parent.id){
+getTableWithNewFileHandles <- function(ref.tbl.syn, parent.id,
+                                       colsNotToConsider = NULL){
   # ref.tbl.syn is the synapse object from synTableQuery  
   
   # Get table from Synapse Objects
@@ -54,9 +55,14 @@ getTableWithNewFileHandles <- function(ref.tbl.syn, parent.id){
   
   # We will be using this later to specify column types for new table
   allCols <- synapser::synGetColumns(ref.tbl.syn$tableId)$asList()
+  
   # Find all columns that are of type 'FILEHANDLEID' for the given table
   fhCols <- whichColumns(allCols, 'FILEHANDLEID') %>% 
     as.list()
+  
+  # Do not download the colsNotToConsider
+  fhCols <- setdiff(fhCols, colsNotToConsider)
+    
   names(fhCols) <- fhCols
   
   # Download all FILEHANDLEID type columns
@@ -108,6 +114,12 @@ getTableWithNewFileHandles <- function(ref.tbl.syn, parent.id){
   ref.tbl <- ref.tbl %>% 
     dplyr::select(-dplyr::one_of(paste0(fhCols, 'fileLocation'))) %>% 
     dplyr::select(-ROW_ID, -ROW_VERSION)
+  
+  # Remove colsNotToConsider if not NULL
+  if(!is.null(colsNotToConsider)){
+    ref.tbl <- ref.tbl %>% 
+      dplyr::select(-colsNotToConsider)
+  }
   
   return(ref.tbl)
 }
