@@ -209,6 +209,12 @@ all.used.ids <- c(all.used.ids, 'syn17870261')
 baselineChar <- baselineChar %>% 
   dplyr::filter(! healthCode %in% to_exclude_users$healthCode) 
 
+# Filter/Exclude Users who withdrew from the study
+withdrew_users <- fread(synGet("syn21927918")$path)
+all.used.ids <- c(all.used.ids, 'syn21927918')
+baselineChar <- baselineChar %>% 
+  dplyr::filter(! healthCode %in% withdrew_users$healthCode) 
+
 ## Fixing errors and 'NA' to NA
 baselineChar['error'] = NA
 baselineChar[baselineChar == 'NA'] = NA
