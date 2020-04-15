@@ -75,7 +75,7 @@ relapses.tbl.new <- relapses.tbl.new %>%
 withdrew_users <- fread(synGet("syn21927918")$path)
 all.used.ids <- c(all.used.ids, 'syn21927918')
 relapses.tbl.new <- relapses.tbl.new %>% 
-  dplyr::filter(!healthCode %in% to_exclude_users$healthCode) 
+  dplyr::filter(!healthCode %in% withdrew_users$healthCode) 
 
 # Filter based on userSharingScope
 relapses.tbl.new <- relapses.tbl.new %>% 
