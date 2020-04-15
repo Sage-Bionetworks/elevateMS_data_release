@@ -52,7 +52,8 @@ relapses.tbl.v1.syn <- synapser::synTableQuery(paste(
 # all.used.ids <- c(all.used.ids, 'syn9872551')
 all.used.ids <- 'syn9872551'
 relapses.tbl.v1.new <- getTableWithNewFileHandles(relapses.tbl.v1.syn,
-                                                  parent.id = parent.syn.id) 
+                                                  parent.id = parent.syn.id,
+                                                  colsNotToConsider = 'rawData') 
 
 # Merge all the tables into a single one
 # relapses.tbl.new <- rbind(relapse.tbl.v1.new,relapses.tbl.v1.new)
@@ -97,6 +98,7 @@ cols.types <- removeColumnInSchemaColumns(cols.types, 'userSharingScope')
 cols.types <- removeColumnInSchemaColumns(cols.types, 'validationErrors')
 cols.types <- removeColumnInSchemaColumns(cols.types, 'substudyMemberships')
 cols.types <- removeColumnInSchemaColumns(cols.types, 'dayInStudy')
+cols.types <- removeColumnInSchemaColumns(cols.types, 'rawData')
 
 ##############
 # Upload to Synapse
