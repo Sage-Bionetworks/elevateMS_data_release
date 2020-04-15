@@ -43,18 +43,8 @@ daily.tbl.v1.new <- getTableWithNewFileHandles(daily.tbl.v1.syn,
                                                parent.id = parent.syn.id,
                                                colsNotToConsider = 'rawData') 
 
-## Get rawData from elevateMS rawData re-export project
-daily.tbl.v1.rawData.syn <- synapser::synTableQuery(paste(
-  'select recordId,healthCode,rawData from', 'syn21762619'))
-all.used.ids <- c(all.used.ids,'syn21762619')
-daily.tbl.v1.rawData.new <- getTableWithNewFileHandles(daily.tbl.v1.rawData.syn,
-                                               parent.id = parent.syn.id) 
-
-
 # Merge all the tables into a single one
-daily.tbl.new <- daily.tbl.v1.new %>% 
-  dplyr::left_join(daily.tbl.v1.rawData.new) %>% 
-  unique()
+daily.tbl.new <- daily.tbl.v1.new 
 
 # Filter based on START_DATE
 daily.tbl.new <- daily.tbl.new %>% 
@@ -101,6 +91,7 @@ cols.types <- removeColumnInSchemaColumns(cols.types, 'userSharingScope')
 cols.types <- removeColumnInSchemaColumns(cols.types, 'validationErrors')
 cols.types <- removeColumnInSchemaColumns(cols.types, 'substudyMemberships')
 cols.types <- removeColumnInSchemaColumns(cols.types, 'dayInStudy')
+cols.types <- removeColumnInSchemaColumns(cols.types, 'rawData')
 
 ##############
 # Upload to Synapse
