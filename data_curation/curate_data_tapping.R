@@ -42,7 +42,8 @@ tapping.tbl.v1.syn <- synapser::synTableQuery(paste(
 ))
 all.used.ids <- 'syn9765504'
 tapping.tbl.v1.new <- getTableWithNewFileHandles(tapping.tbl.v1.syn
-                                                 , parent.id = parent.syn.id) %>% 
+                                                 , parent.id = parent.syn.id,
+                                                 colsNotToConsider = 'rawData') %>% 
   dplyr::rename(accelerometer_tapping_left.json.items = accelerometer_tapping_left.json,
                 accelerometer_tapping_right.json.items = accelerometer_tapping_right.json)
 # renaming to confirm to v2's nomenclature
@@ -54,7 +55,8 @@ tapping.tbl.v2.syn <- synapser::synTableQuery(paste(
 ))
 all.used.ids <- c(all.used.ids, 'syn10278765')
 tapping.tbl.v2.new <- getTableWithNewFileHandles(tapping.tbl.v2.syn,
-                                                 parent.id = parent.syn.id) 
+                                                 parent.id = parent.syn.id,
+                                                 colsNotToConsider = 'rawData') 
 
 # Merge all the tables into a single one
 tapping.tbl.new <- rbind(tapping.tbl.v1.new,tapping.tbl.v2.new)
@@ -70,6 +72,12 @@ to_exclude_users <- fread(synGet("syn17870261")$path)
 all.used.ids <- c(all.used.ids, 'syn17870261')
 tapping.tbl.new <- tapping.tbl.new %>% 
   dplyr::filter(!healthCode %in% to_exclude_users$healthCode) 
+
+# Filter/Exclude Users who withdrew from the study
+withdrew_users <- fread(synGet("syn21927918")$path)
+all.used.ids <- c(all.used.ids, 'syn21927918')
+tapping.tbl.new <- tapping.tbl.new %>% 
+  dplyr::filter(!healthCode %in% withdrew_users$healthCode) 
 
 # Filter based on userSharingScope
 tapping.tbl.new <- tapping.tbl.new %>% 
@@ -100,6 +108,7 @@ cols.types <- removeColumnInSchemaColumns(cols.types, 'userSharingScope')
 cols.types <- removeColumnInSchemaColumns(cols.types, 'validationErrors')
 cols.types <- removeColumnInSchemaColumns(cols.types, 'substudyMemberships')
 cols.types <- removeColumnInSchemaColumns(cols.types, 'dayInStudy')
+cols.types <- removeColumnInSchemaColumns(cols.types, 'rawData')
 
 ##############
 # Upload to Synapse
