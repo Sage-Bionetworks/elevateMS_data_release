@@ -41,7 +41,8 @@ msis.tbl.v1.syn <- synapser::synTableQuery(paste(
 ))
 all.used.ids <- 'syn9920302'
 msis.tbl.v1.new <- getTableWithNewFileHandles(msis.tbl.v1.syn,
-                                                 parent.id = parent.syn.id) 
+                                              parent.id = parent.syn.id,
+                                              colsNotToConsider = 'rawData' ) 
 
 # Merge all the tables into a single one
 msis.tbl.new <- msis.tbl.v1.new
@@ -71,6 +72,7 @@ msis.tbl.new <- msis.tbl.new %>%
                 -validationErrors,
                 -substudyMemberships,
                 -dayInStudy,
+                -rawData,
                 -`05_difficulty_moving`, -`06_clumsy`, -`07_stiffness`,
                 -`08_heavy_limbs`, -`09_tremor`, -`10_spasms`,
                 -`11_body`, -`12_depend_on_others`, -`13_social_limitations`,
@@ -92,6 +94,8 @@ cols.types <- removeColumnInSchemaColumns(cols.types, 'externalId')
 cols.types <- removeColumnInSchemaColumns(cols.types, 'userSharingScope')
 cols.types <- removeColumnInSchemaColumns(cols.types, 'validationErrors')
 cols.types <- removeColumnInSchemaColumns(cols.types, 'substudyMemberships')
+cols.types <- removeColumnInSchemaColumns(cols.types, 'dayInStudy')
+cols.types <- removeColumnInSchemaColumns(cols.types, 'rawData')
 cols.types <- removeColumnInSchemaColumns(cols.types, '05_difficulty_moving')
 cols.types <- removeColumnInSchemaColumns(cols.types, '06_clumsy')
 cols.types <- removeColumnInSchemaColumns(cols.types, '07_stiffness')
@@ -129,11 +133,11 @@ thisFile <- getPermlink(repository = thisRepo, repositoryPath=thisFileName)
 
 ## Upload new table to Synapse
 msis.tbl.syn.new <- synapser::synBuildTable(name = target.tbl.name,
-                                               parent = parent.syn.id,
-                                               values = msis.tbl.new)
+                                            parent = parent.syn.id,
+                                            values = msis.tbl.new)
 msis.tbl.syn.new$schema <- synapser::Schema(name = target.tbl.name,
-                                               columns = cols.types, # Specify column types
-                                               parent = parent.syn.id)
+                                            columns = cols.types, # Specify column types
+                                            parent = parent.syn.id)
 tbl.syn.new <- synapser::synStore(msis.tbl.syn.new)
 act <- synapser::Activity(name = target.tbl.name,used = all.used.ids, executed = thisFile)
 synapser::synSetProvenance(tbl.syn.new, activity = act)
