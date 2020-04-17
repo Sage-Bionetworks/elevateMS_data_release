@@ -72,7 +72,6 @@ msis.tbl.new <- msis.tbl.new %>%
                 -validationErrors,
                 -substudyMemberships,
                 -dayInStudy,
-                -rawData,
                 -`05_difficulty_moving`, -`06_clumsy`, -`07_stiffness`,
                 -`08_heavy_limbs`, -`09_tremor`, -`10_spasms`,
                 -`11_body`, -`12_depend_on_others`, -`13_social_limitations`,
