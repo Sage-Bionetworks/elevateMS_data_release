@@ -22,7 +22,7 @@ synapser::synLogin()
 ##############
 # The target destination (where the new table is uploaded)
 parent.syn.id <- 'syn21140362'
-target.tbl.name <- 'MSIS-29'
+target.tbl.name <- 'Truncated MSIS-29'
 START_DATE = lubridate::ymd("2017-08-14")
 
 ##############
@@ -70,7 +70,15 @@ msis.tbl.new <- msis.tbl.new %>%
                 -userSharingScope,
                 -validationErrors,
                 -substudyMemberships,
-                -dayInStudy)
+                -dayInStudy,
+                -`05_difficulty_moving`, -`06_clumsy`, -`07_stiffness`,
+                -`08_heavy_limbs`, -`09_tremor`, -`10_spasms`,
+                -`11_body`, -`12_depend_on_others`, -`13_social_limitations`,
+                -`14_stuck_at_home`, -`15_difficulty_hands`, -`16_time_spent`,
+                -`17_transportation`, -`18_taking_longer`, -`19_spontaneous`,
+                -`20_toilet`, -`21_feeling_unwell`, -`22_sleep`,
+                -`23_mental_fatigue`, -`24_ms_worries`, -`25_feeling_anxious`,
+                -`26_feeling_irritable`, -`27_concentration`, -`28_confidence`)
 
 ##############
 # Table Metadata (column names, types etc.,)
@@ -84,7 +92,30 @@ cols.types <- removeColumnInSchemaColumns(cols.types, 'externalId')
 cols.types <- removeColumnInSchemaColumns(cols.types, 'userSharingScope')
 cols.types <- removeColumnInSchemaColumns(cols.types, 'validationErrors')
 cols.types <- removeColumnInSchemaColumns(cols.types, 'substudyMemberships')
-cols.types <- removeColumnInSchemaColumns(cols.types, 'dayInStudy')
+cols.types <- removeColumnInSchemaColumns(cols.types, '05_difficulty_moving')
+cols.types <- removeColumnInSchemaColumns(cols.types, '06_clumsy')
+cols.types <- removeColumnInSchemaColumns(cols.types, '07_stiffness')
+cols.types <- removeColumnInSchemaColumns(cols.types, '08_heavy_limbs')
+cols.types <- removeColumnInSchemaColumns(cols.types, '09_tremor')
+cols.types <- removeColumnInSchemaColumns(cols.types, '10_spasms')
+cols.types <- removeColumnInSchemaColumns(cols.types, '11_body')
+cols.types <- removeColumnInSchemaColumns(cols.types, '12_depend_on_others')
+cols.types <- removeColumnInSchemaColumns(cols.types, '13_social_limitations')
+cols.types <- removeColumnInSchemaColumns(cols.types, '14_stuck_at_home')
+cols.types <- removeColumnInSchemaColumns(cols.types, '15_difficulty_hands')
+cols.types <- removeColumnInSchemaColumns(cols.types, '16_time_spent')
+cols.types <- removeColumnInSchemaColumns(cols.types, '17_transportation')
+cols.types <- removeColumnInSchemaColumns(cols.types, '18_taking_longer')
+cols.types <- removeColumnInSchemaColumns(cols.types, '19_spontaneous')
+cols.types <- removeColumnInSchemaColumns(cols.types, '20_toilet')
+cols.types <- removeColumnInSchemaColumns(cols.types, '21_feeling_unwell')
+cols.types <- removeColumnInSchemaColumns(cols.types, '22_sleep')
+cols.types <- removeColumnInSchemaColumns(cols.types, '23_mental_fatigue')
+cols.types <- removeColumnInSchemaColumns(cols.types, '24_ms_worries')
+cols.types <- removeColumnInSchemaColumns(cols.types, '25_feeling_anxious')
+cols.types <- removeColumnInSchemaColumns(cols.types, '26_feeling_irritable')
+cols.types <- removeColumnInSchemaColumns(cols.types, '27_concentration')
+cols.types <- removeColumnInSchemaColumns(cols.types, '28_confidence')
 
 ##############
 # Upload to Synapse
