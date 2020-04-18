@@ -157,3 +157,7 @@ triggers.tbl.syn.new$schema <- newSchema
 tbl.syn.new <- synapser::synStore(triggers.tbl.syn.new)
 act <- synapser::Activity(name = target.tbl.name,used = all.used.ids, executed = thisFile)
 synapser::synSetProvenance(tbl.syn.new, activity = act)
+
+# Remove local temp directory
+unlink('hhh', recursive = T)
+
