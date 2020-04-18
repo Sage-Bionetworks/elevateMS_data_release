@@ -118,7 +118,7 @@ triggers.tbl.new$filePath <- NULL
 # Table Metadata (column names, types etc.,)
 ##############
 # Get the reference column schema to use for the new table
-cols.types <- synapser::synGetColumns('syn10278765')$asList()
+cols.types <- synapser::synGetColumns('syn10232189')$asList()
 
 # Remove the dataGroups column
 cols.types <- removeColumnInSchemaColumns(cols.types, 'dataGroups')
