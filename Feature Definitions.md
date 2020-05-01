@@ -5,7 +5,9 @@
 
 
 ## Tremor
-The features used for the analysis are derived from `mhealthtools` [https://github.com/Sage-Bionetworks/mhealthtools/tree/master/R]. 
+The features used for the analysis are derived from `mhealthtools`
+
+[https://github.com/Sage-Bionetworks/mhealthtools/tree/master/R]. 
 
 The features are of the format `<feature>.<domain>.<IMF>.<stat>_<axis>_<sensorType>.<STAT>`
 
@@ -23,7 +25,8 @@ The features are of the format `<feature>.<domain>.<IMF>.<stat>_<axis>_<sensorTy
 | ewt.tsallisEnt [1]         |  Permutation Entropy of the energies of signals obtained using Empirical Wavelet Transform   |
 | IQR         | Inter quantile range                                  |
 | kurt/kutosis         | kurtosis                                  |
-| md/median        | median                                  |
+| md        | median                                  |
+| median        | median                                  |
 | mobility     | sqrt(var(diff(values)*sampling_rate)/var(values)) |
 | mode | mode, most occuring value |
 | mod  | most prominent frequency (max magnitude in frequency spectrum) |
