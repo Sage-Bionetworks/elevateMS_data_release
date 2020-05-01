@@ -117,7 +117,7 @@ cols.types <- removeColumnInSchemaColumns(cols.types, 'rawData')
 gtToken = 'github_token.txt';
 githubr::setGithubToken(as.character(read.table(gtToken)$V1))
 thisFileName <- 'data_curation/curate_data_tremor.R'
-thisRepo <- getRepo(repository = "itismeghasyam/elevateMS_data_release", ref="branch", refName='master')
+thisRepo <- getRepo(repository = "Sage-Bionetworks/elevateMS_data_release", ref="branch", refName='master')
 thisFile <- getPermlink(repository = thisRepo, repositoryPath=thisFileName)
 
 ## Upload new table to Synapse
