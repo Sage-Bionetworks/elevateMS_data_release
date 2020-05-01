@@ -2,10 +2,10 @@
 #### Title: "Feature Definitions"
 #### Author: "Meghasyam Tummalacherla"
 ---
-The features used for the analysis are derived from `mhealthtools` [https://github.com/Sage-Bionetworks/mhealthtools/tree/master/R]. 
 
 
 ## Tremor
+The features used for the analysis are derived from `mhealthtools` [https://github.com/Sage-Bionetworks/mhealthtools/tree/master/R]. 
 
 The features are of the format `<feature>.<domain>.<IMF>.<stat>_<axis>_<sensorType>.<STAT>`
 
@@ -99,4 +99,75 @@ by taking the median of the feature obtained from `skewnwss, tm, IMF1, uav, gyrs
 by taking the inter quantile range across all records for a given subject
 
 ## Tapping
+The features used for the analysis are derived from `mhealthtools` [https://github.com/Sage-Bionetworks/mhealthtools/tree/master/R]. 
 
+| Feature Name      | Definition                                                                                        |
+| ----------------- | ------------------------------------------------------------------------------------------------- |
+| meanTapInter      | mean tapping interval                                                                             |
+| medianTapInter    | median tapping interval                                                                           |
+| iqrTapInter       | interquartile range tapping interval                                                              |
+| minTapInter       | minimum tapping interval                                                                          |
+| maxTapInter       | maximum tapping interval                                                                          |
+| skewTapInter      | skewness tapping interval                                                                         |
+| kurTapInter       | kurtosis tapping interval                                                                         |
+| sdTapInter        | standard deviation tapping interval                                                               |
+| madTapInter       | mean absolute deviation tapping interval                                                          |
+| cvTapInter        | coefficient of variation tapping interval                                                         |
+| rangeTapInter     | range tapping interval                                                                            |
+| tkeoTapInter      | teager-kaiser energy operator tapping interval                                                    |
+| ar1TapInter       | autocorrelation (lag = 1) tapping interval                                                        |
+| ar2TapInter       | autocorrelation (lag = 2) tapping interval                                                        |
+| fatigue10TapInter | difference in mean tapping interval between the first and last 10% of the tapping interval series |
+| fatigue25TapInter | difference in mean tapping interval between the first and last 25% of the tapping interval series |
+| fatigue50TapInter | difference in mean tapping interval between the first and last 50% of the tapping interval series |
+| meanDriftLeft     | mean drift in the left button                                                                     |
+| medianDriftLeft   | median drift in the left button                                                                   |
+| iqrDriftLeft      | interquartile range of drift in the left button                                                   |
+| minDriftLeft      | minimum of drift in the left button                                                               |
+| maxDriftLeft      | maximum of drift in the left button                                                               |
+| skewDriftLeft     | skewness of drift in the left button                                                              |
+| kurDriftLeft      | kurtosis of drift in the left button                                                              |
+| sdDriftLeft       | standard deviation of drift in the left button |
+| madDriftLeft      | mean absolute deviation of drift in the left button |
+| cvDriftLeft       | coefficient of variation of drift in the left button |
+| rangeDriftLeft    | range of drift in the left button |
+| meanDriftRight    | mean drift in the right button |
+| medianDriftRight  | median drift in the right button |
+| iqrDriftRight     | interquartile range of drift in the right button |
+| minDriftRight     | minimum of drift in the right button |
+| maxDriftRight     | maximum of drift in the right button |
+| skewDriftRight    | skewness of drift in the right button |
+| kurDriftRight     | kurtosis of drift in the right button |
+| sdDriftRight      | standard deviation of drift in the right button |
+| madDriftRight     | mean absolute deviation of drift in the right button |
+| cvDriftRight      | coefficient of variation of drift in the right button |
+| rangeDriftRight   | range of drift in the right button |
+| numberTaps         | number of taps |
+| buttonNoneFreq    | frequency where neither the left or right buttons were hit |
+| corXY             | correlation between the X and Y coordinates of the hits |
+
+## Rest
+ ** The features used for the analysis are derived from `mpowertools` [https://github.com/itismeghasyam/mpowertools]. 
+#### my version of mpowertools, not sure if sagebio main has the same rest feature function :/
+
+| Feature Name | Definition                                                                                        |
+| ------------ | ------------------------------------------------------------------------------------------------- |
+| meanAA       |  mean of the average acceleration series                                                          |
+| sdAA         |  standard deviation of the average acceleration series                                            |
+| modeAA       |  mode of the average acceleration series                                                          |
+| skewAA       |  skewness of the average acceleration series                                                      |
+| kurAA        |  kurtosis of the average acceleration series                                                      |
+| q1AA         |  first quartile of the average acceleration series                                                |
+| medianAA     |  median of the average acceleration series                                                        |
+| q3AA         |  third quartile of the average acceleration series                                                |
+| iqrAA        |  interquartile range of the average acceleration series                                           |
+| rangeAA      |  range of the average acceleration series                                                         |
+| acfAA        |  autocorrelation (lag = 1) of the average acceleration series                                     |
+| zcrAA        |  zero-crossing rate of the average acceleration series                                            |
+| dfaAA        |  scaling exponent of the detrended fluctuation analysis of the average acceleration series        |
+| turningTime  |  turning time                                                                                     |
+| Postpeak     |  posture peak                                                                                     |
+| Postpower    |  posture power                                                                                    |
+| Alpha        |  scaling exponent of the detrended fluctuation analysis of the force vector magnitute series      |
+| dVol         | displacement volume (volume of the box around the displacement across the X, Y, and Z directions) |
+| ddVol        | delta displacement volume                                                                         |
