@@ -22,7 +22,7 @@ synapser::synLogin()
 ##############
 # The target destination (where the new table is uploaded)
 parent.syn.id <- 'syn21140362'
-target.tbl.name <- 'Passive Data'
+target.tbl.name <- 'Passive Pedometer Data'
 START_DATE = lubridate::ymd("2017-08-14")
 
 ##############
@@ -47,7 +47,11 @@ passive.tbl.v3.new <- getTableWithNewFileHandles(passive.tbl.v3.syn
 passive.tbl.new <- passive.tbl.v3.new %>% 
   dplyr::mutate(date_of_entry = as.Date(lubridate::as_datetime(metadata.json.startDate))) %>% 
   dplyr::filter(date_of_entry >= START_DATE) %>% 
-  dplyr::select(-date_of_entry)
+  dplyr::select(-date_of_entry) %>% 
+  unique()
+
+# Remove rows with no data in pedometer.json.pedometerData column
+passive.tbl.new <- passive.tbl.new[!is.na(passive.tbl.new$pedometer.json.pedometerData),]
 
 # Filter/Exclude Users based on Vanessa's offline analysis
 to_exclude_users <- fread(synGet("syn17870261")$path)
@@ -97,7 +101,7 @@ cols.types <- removeColumnInSchemaColumns(cols.types, 'rawData')
 gtToken = 'github_token.txt';
 githubr::setGithubToken(as.character(read.table(gtToken)$V1))
 thisFileName <- 'data_curation/curate_passive_data.R'
-thisRepo <- getRepo(repository = "itismeghasyam/elevateMS_data_release", ref="branch", refName='master')
+thisRepo <- getRepo(repository = "Sage-Bionetworks/elevateMS_data_release", ref="branch", refName='master')
 thisFile <- getPermlink(repository = thisRepo, repositoryPath=thisFileName)
 
 # ## Upload new table to Synapse

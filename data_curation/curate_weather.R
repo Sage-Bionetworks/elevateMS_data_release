@@ -22,7 +22,7 @@ synapser::synLogin()
 ##############
 # The target destination (where the new table is uploaded)
 parent.syn.id <- 'syn21140362'
-target.tbl.name <- 'Weather'
+target.tbl.name <- 'Passive Weather Data'
 START_DATE = lubridate::ymd("2017-08-14")
 
 ##############
@@ -94,7 +94,9 @@ weather.tbl.new <- weather.tbl.new %>%
                 -userSharingScope,
                 -validationErrors,
                 -substudyMemberships,
-                -dayInStudy)
+                -dayInStudy,
+                -weather.json.weather.code,
+                -weather.json.weather.detail)
 
 ##############
 # Table Metadata (column names, types etc.,)
@@ -110,6 +112,8 @@ cols.types <- removeColumnInSchemaColumns(cols.types, 'userSharingScope')
 cols.types <- removeColumnInSchemaColumns(cols.types, 'validationErrors')
 cols.types <- removeColumnInSchemaColumns(cols.types, 'substudyMemberships')
 cols.types <- removeColumnInSchemaColumns(cols.types, 'dayInStudy')
+cols.types <- removeColumnInSchemaColumns(cols.types, 'weather.json.weather.code')
+cols.types <- removeColumnInSchemaColumns(cols.types, 'weather.json.weather.detail')
 cols.types <- removeColumnInSchemaColumns(cols.types, 'rawData')
 
 ##############

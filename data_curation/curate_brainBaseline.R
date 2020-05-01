@@ -53,8 +53,8 @@ dsst <- dsstResults %>%
                    activityStartTime_GMT = min(createdOn),
                    numCorrect = sum(accuracy == 'y'),
                    percentCorrect = 100 * round(numCorrect/numDigits, digits=2),
-                   avgTime = mean(durationMS/1000, na.rm=T),
-                   sdTime = sd(durationMS/1000, na.rm=T),
+                   avgTime = round(mean(durationMS/1000, na.rm=T), digits = 3),
+                   sdTime = round(sd(durationMS/1000, na.rm=T), digits = 3),
                    totalTime = sum(durationMS/1000, na.rm=T)) %>% 
   dplyr::ungroup()
 
@@ -94,7 +94,7 @@ dsst <- dsst %>%
 gtToken = 'github_token.txt';
 githubr::setGithubToken(as.character(read.table(gtToken)$V1))
 thisFileName <- 'data_curation/curate_brainBaseline.R'
-thisRepo <- getRepo(repository = "itismeghasyam/elevateMS_data_release", ref="branch", refName='master')
+thisRepo <- getRepo(repository = "Sage-Bionetworks/elevateMS_data_release", ref="branch", refName='master')
 thisFile <- getPermlink(repository = thisRepo, repositoryPath=thisFileName)
 
 ## Upload new table to Synapse
