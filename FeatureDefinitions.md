@@ -1,10 +1,11 @@
----
+
 #### Title: "Feature Definitions"
 #### Author: "Meghasyam Tummalacherla"
----
 
 ## Tapping
-The features used for the analysis are derived from `mhealthtools` [https://github.com/Sage-Bionetworks/mhealthtools/tree/master/R]. 
+The features used for the analysis are derived from -
+
+`mhealthtools` [https://github.com/Sage-Bionetworks/mhealthtools]. 
 
 | Feature Name      | Definition                                                                                        |
 | ----------------- | ------------------------------------------------------------------------------------------------- |
@@ -52,8 +53,9 @@ The features used for the analysis are derived from `mhealthtools` [https://gith
 | corXY             | correlation between the X and Y coordinates of the hits |
 
 ## Rest
- ** The features used for the analysis are derived from `mpowertools` [https://github.com/itismeghasyam/mpowertools]. 
-#### my version of mpowertools, not sure if sagebio main has the same rest feature function :/
+The features used for the analysis are derived from -
+
+`mpowertools` [https://github.com/itismeghasyam/mpowertools]. 
 
 | Feature Name | Definition                                                                                        |
 | ------------ | ------------------------------------------------------------------------------------------------- |
@@ -79,9 +81,9 @@ The features used for the analysis are derived from `mhealthtools` [https://gith
 
 
 ## Tremor
-The features used for the analysis are derived from `mhealthtools`
+The features used for the analysis are derived from - 
 
-[https://github.com/Sage-Bionetworks/mhealthtools/tree/master/R]. 
+`mhealthtools`[https://github.com/Sage-Bionetworks/mhealthtools/tree/master/R]. 
 
 The features are of the format `<feature>.<domain>.<IMF>.<stat>_<axis>_<sensorType>.<STAT>`
 
