@@ -52,7 +52,7 @@ The following features used were extracted using `mhealthtools` [https://github.
 ## Walk
 The following features used were extracted using `mpowertools` [https://github.com/itismeghasyam/mpowertools]. 
 
-The following features are of the format `<feature><axis>`, for example `meanX`, mean of X Axis ; `iqrAA`, inter quartile range of AA Axis (average acceleration)
+The following features are of the format `<feature><axis>` - for example `meanX`, mean of X axis ; `iqrAA`, inter quartile range of AA axis (average acceleration)
 
 | \<feature\>      | Definition                                                                                        |
 | ----------------- | ------------------------------------------------------------------------------------------------- |
