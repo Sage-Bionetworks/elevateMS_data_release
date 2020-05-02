@@ -132,7 +132,7 @@ For example `skewness.tm.IMF1.md_uav_gyroscope.IQR`
 
 | \<feature\>      | Definition                                                                                        |
 | ----------------- | ------------------------------------------------------------------------------------------------- |
-| cent/mean/mn        | mean/centroid                                                                                      |
+| cent       | centroid                                                                                      |
 | complexity        | sqrt(var(diff(diff(values)*sampling_rate)*sampling_rate) /var(diff(values)*sampling_rate))) |
 | dfa         | scaling exponent of the detrended fluctuation analysis                                  |
 | energy         | energy (or sum of squares of values)                                  |
@@ -143,8 +143,11 @@ For example `skewness.tm.IMF1.md_uav_gyroscope.IQR`
 | ewt.renyiEnt [1]         |  Permutation Entropy of the energies of signals obtained using Empirical Wavelet Transform   |
 | ewt.tsallisEnt [1]         |  Permutation Entropy of the energies of signals obtained using Empirical Wavelet Transform   |
 | IQR         | Inter quantile range                                  |
-| kurt/kutosis         | kurtosis                                  |
+| kurt        | kurtosis                                  |
+| kurtosis        | kurtosis                                  |
 | md        | median                                  |
+| mean | mean |
+| mn | mean |
 | median        | median                                  |
 | mobility     | sqrt(var(diff(values)*sampling_rate)/var(values)) |
 | mode | mode, most occuring value |
@@ -161,7 +164,8 @@ For example `skewness.tm.IMF1.md_uav_gyroscope.IQR`
 | sem | standard deviation per frequency bin of the spectrum |
 | sfm | spectral flatness measure |
 | sh | Shannon entropy |
-| skew/skewness | skewness |
+| skew | skewness |
+| skewness | skewness |
 
 [1] - https://github.com/Sage-Bionetworks/mhealthtools/blob/master/R/feature_extraction_functions.R#L107
 
