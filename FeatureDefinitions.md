@@ -3,9 +3,7 @@
 #### Author: "Meghasyam Tummalacherla"
 
 ## Tapping
-The features used for the analysis are derived from -
-
-`mhealthtools` [https://github.com/Sage-Bionetworks/mhealthtools]. 
+The following features used were extracted using `mhealthtools` [https://github.com/Sage-Bionetworks/mhealthtools]. 
 
 | Feature Name      | Definition                                                                                        |
 | ----------------- | ------------------------------------------------------------------------------------------------- |
@@ -53,9 +51,7 @@ The features used for the analysis are derived from -
 | corXY             | correlation between the X and Y coordinates of the hits |
 
 ## Rest
-The features used for the analysis are derived from -
-
-`mpowertools` [https://github.com/itismeghasyam/mpowertools]. 
+The following features used were extracted using `mpowertools` [https://github.com/itismeghasyam/mpowertools]. 
 
 | Feature Name | Definition                                                                                        |
 | ------------ | ------------------------------------------------------------------------------------------------- |
@@ -81,9 +77,7 @@ The features used for the analysis are derived from -
 
 
 ## Tremor
-The features used for the analysis are derived from - 
-
-`mhealthtools`[https://github.com/Sage-Bionetworks/mhealthtools/tree/master/R]. 
+The following features used were extracted using `mhealthtools` [https://github.com/Sage-Bionetworks/mhealthtools]. 
 
 The features are of the format `<feature>.<domain>.<IMF>.<stat>_<axis>_<sensorType>.<STAT>`
 
