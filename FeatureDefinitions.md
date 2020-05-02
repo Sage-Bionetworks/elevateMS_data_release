@@ -147,7 +147,8 @@ For example `skewness.tm.IMF1.md_uav_gyroscope.IQR`
 | kurtosis        | kurtosis                                  |
 | md        | median                                  |
 | mean | mean |
-| mn | mean |
+| mn*(for time) | min |
+| mn*(for frequency) | mean |
 | median        | median                                  |
 | mobility     | sqrt(var(diff(values)*sampling_rate)/var(values)) |
 | mode | mode, most occuring value |
