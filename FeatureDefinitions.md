@@ -1,6 +1,5 @@
-
-# "Feature Definitions"
-#### Author: "Meghasyam Tummalacherla"
+# Feature Definitions
+###### Author: Meghasyam Tummalacherla
 
 ## Tapping
 The following features used were extracted using `mhealthtools` [https://github.com/Sage-Bionetworks/mhealthtools]. 
@@ -53,27 +52,46 @@ The following features used were extracted using `mhealthtools` [https://github.
 ## Walk
 The following features used were extracted using `mpowertools` [https://github.com/itismeghasyam/mpowertools]. 
 
-The features are of the format `<feature><axis>`, for example `meanX`, mean of X -Axis ; `iqrAA`, inter quartile range of AA Axis (average acceleration)
+The following features are of the format `<feature><axis>`, for example `meanX`, mean of X Axis ; `iqrAA`, inter quartile range of AA Axis (average acceleration)
 
-| Feature Name      | Definition                                                                                        |
+| \<feature\>      | Definition                                                                                        |
 | ----------------- | ------------------------------------------------------------------------------------------------- |
 | mean        | mean |
 | sd          | standard deviation |
 | mode        | mode |
 | skew        | skewness |
 | kur         | kurtosis |
-| q1          | first quartile of the X acceleration series|
-| median      | median of the X acceleration series|
-| q3          | third quartile of the X acceleration series|
-| iqr         | interquartile range of the X acceleration series|
-| range       | range of the X acceleration series|
-| acf         | autocorrelation (lag = 1) of the X acceleration series|
-| zcr         | zero-crossing rate of the X acceleration series|
-| dfa         | scaling exponent of the detrended fluctuation analysis of the X acceleration series|
-| cv          | coefficient of variation of the X acceleration series|
-| tkeo        | teager-kaiser energy operator of the X acceleration series|
-| F0          | frequency at which the maximum peak of the Lomb-Scargle periodogram occurred for the X acceleration series|
-| P0          | maximum power in the inspected frequency interval of the Lomb-Scargle periodogram for the X acceleration series       |
+| q1          | first quartile cutoff|
+| median      | median |
+| q3          | third quartile cutoff|
+| iqr         | interquartile range |
+| range       | range(maximum - minimum)|
+| acf         | autocorrelation ( at lag = 1)|
+| zcr         | zero-crossing rate |
+| dfa         | scaling exponent of the detrended fluctuation analysis of the given series|
+| cv          | coefficient of variation of the given series|
+| tkeo        | teager-kaiser energy operator of the given series|
+| F0          | frequency at which the maximum peak of the Lomb-Scargle periodogram occurred for the given series|
+| P0          | maximum power in the inspected frequency interval of the Lomb-Scargle periodogram for the given series|
+
+| \<axis\>      | Definition                                                                                        |
+| ----------------- | ------------------------------------------------------------------------------------------------- |
+| X | X - axis (accelerometer) |
+| Y | Y - axis (accelerometer)|
+| Z | Z - axis (accelerometer)|
+| AA | Average Acceleration |
+| AJ| Average Jerk |
+
+Where,
+
+AA = sqrt(X^2 + Y^2 + Z^2)
+
+AJ = sqrt((diff(X))^2 + (diff(Y))^2 + (diff(Z))^2)
+
+There are three more features for walk that don't fit the above category:
+
+| Feature Name      | Definition                                                                                        |
+| ----------------- | ------------------------------------------------------------------------------------------------- |
 | corXY        | correlation between the X and Y acceleration              |
 | corXZ        | correlation between the X and Z acceleration                 |
 | corYZ        | correlation between the Y and Z acceleration       |
@@ -133,9 +151,9 @@ For example `skewness.tm.IMF1.md_uav_gyroscope.IQR`
 | mod  | most prominent frequency (max magnitude in frequency spectrum) |
 | mtkeo         | mean of result of teager-kaiser energy operator on the given series |
 | mx     | max |
-| Q25 | 1st Quartile cutoff |
-| Q75 | 3rd Quartile cutoff |
-| range | Difference between max and min values (max - min) |
+| Q25 | first Quartile cutoff |
+| Q75 | third Quartile cutoff |
+| range | maximum - minimum |
 | rmsmag | Root mean square magnitude |
 | rough [2] | roughness or total curvature  |
 | rugo [3] | rugosity |
