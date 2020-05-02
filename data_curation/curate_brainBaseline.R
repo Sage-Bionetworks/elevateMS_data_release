@@ -77,9 +77,9 @@ dsst <- dsst %>%
   dplyr::filter(!healthCode %in% withdrew_users$healthCode) 
 
 # baseline characteristics for user sharing scope
-baseline.char <- synTableQuery('SELECT * FROM syn21930532')
+baseline.char <- synTableQuery('SELECT * FROM syn22006146')
 baseline.char <- baseline.char$asDataFrame()
-all.used.ids <- c(all.used.ids, 'syn21930532')
+all.used.ids <- c(all.used.ids, 'syn22006146')
 
 # Filter based on userSharingScope - 
 # retain only those healthCode present in baseline characteristics
