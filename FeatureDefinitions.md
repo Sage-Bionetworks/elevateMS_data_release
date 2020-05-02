@@ -1,5 +1,5 @@
 
-#### Title: "Feature Definitions"
+# "Feature Definitions"
 #### Author: "Meghasyam Tummalacherla"
 
 ## Tapping
@@ -50,6 +50,35 @@ The following features used were extracted using `mhealthtools` [https://github.
 | buttonNoneFreq    | frequency where neither the left or right buttons were hit |
 | corXY             | correlation between the X and Y coordinates of the hits |
 
+## Walk
+The following features used were extracted using `mpowertools` [https://github.com/itismeghasyam/mpowertools]. 
+
+The features are of the format `<feature><axis>`, for example `meanX`, mean of X -Axis ; `iqrAA`, inter quartile range of AA Axis (average acceleration)
+
+| Feature Name      | Definition                                                                                        |
+| ----------------- | ------------------------------------------------------------------------------------------------- |
+| mean        | mean |
+| sd          | standard deviation |
+| mode        | mode |
+| skew        | skewness |
+| kur         | kurtosis |
+| q1          | first quartile of the X acceleration series|
+| median      | median of the X acceleration series|
+| q3          | third quartile of the X acceleration series|
+| iqr         | interquartile range of the X acceleration series|
+| range       | range of the X acceleration series|
+| acf         | autocorrelation (lag = 1) of the X acceleration series|
+| zcr         | zero-crossing rate of the X acceleration series|
+| dfa         | scaling exponent of the detrended fluctuation analysis of the X acceleration series|
+| cv          | coefficient of variation of the X acceleration series|
+| tkeo        | teager-kaiser energy operator of the X acceleration series|
+| F0          | frequency at which the maximum peak of the Lomb-Scargle periodogram occurred for the X acceleration series|
+| P0          | maximum power in the inspected frequency interval of the Lomb-Scargle periodogram for the X acceleration series       |
+| corXY        | correlation between the X and Y acceleration              |
+| corXZ        | correlation between the X and Z acceleration                 |
+| corYZ        | correlation between the Y and Z acceleration       |
+
+
 ## Rest
 The following features used were extracted using `mpowertools` [https://github.com/itismeghasyam/mpowertools]. 
 
@@ -79,7 +108,9 @@ The following features used were extracted using `mpowertools` [https://github.c
 ## Tremor
 The following features used were extracted using `mhealthtools` [https://github.com/Sage-Bionetworks/mhealthtools]. 
 
-The features are of the format `<feature>.<domain>.<IMF>.<stat>_<axis>_<sensorType>.<STAT>`
+The features are of the format `<feature>.<domain>.<IMF>.<stat>_<axis>_<sensorType>.[STAT]`
+
+For example `skewness.tm.IMF1.md_uav_gyroscope.IQR`
 
 | \<feature\>      | Definition                                                                                        |
 | ----------------- | ------------------------------------------------------------------------------------------------- |
@@ -163,11 +194,11 @@ by taking the median of the feature obtained from `skewnwss, tm, IMF1, uav, gyrs
 | acceleromter | accelerometer |
 | gyroscope | gyroscope |
 
-| \<STAT\>      | Definition                                                                                        |
+| [STAT]      | Definition                                                                                        |
 | ----------------- | ------------------------------------------------------------------------------------------------- |
 | md | median |
 | iqr | interquantile range |
 
-\<STAT\> is optional. Scope of \<STAT\> is at individual level. ie., for eg., `skewness.tm.IMF1.md_uav_gyroscope.IQR` is obtained 
+[STAT] is optional. Scope of [STAT] is at individual level. ie., for eg., `skewness.tm.IMF1.md_uav_gyroscope.IQR` is obtained 
 by taking the inter quantile range across all records for a given subject
 
